@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis_mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sun.movie.dal.mapper.MovieMapper">
+    <sql id="tableName">
+        movie
+    </sql>
+
+    <sql id="selectFields">
+        id, `name`, published_year, category
+    </sql>
+
+    <sql id="insertKeys">
+        `name`, published_year, category
+    </sql>
+
+    <sql id="insertValues">
+        #{name}, #{published_year}, #{category}
+    </sql>
+    
+    <select id="queryAllMovies" resultType="com.sun.movie.dal.entity.Movie">
+        SELECT <include refid="selectFields"/>
+        FROM <include refid="tableName"/>
+    </select>
+
+    <select id="getMovieById" resultType="com.sun.movie.dal.entity.Movie">
+        SELECT <include refid="selectFields"/>
+        FROM <include refid="tableName"/>
+        WHERE id = #{id}
+    </select>
+</mapper>
