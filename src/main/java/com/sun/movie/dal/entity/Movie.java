@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class Movie extends Base {
-    private int id;
+    private long id;
     private String name;
     private String published_year;
     private String category;

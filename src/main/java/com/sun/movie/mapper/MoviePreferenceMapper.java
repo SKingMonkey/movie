@@ -1,6 +1,5 @@
-package com.sun.movie.dal.mapper;
+package com.sun.movie.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 @Repository

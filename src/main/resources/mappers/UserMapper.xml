@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis_mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sun.movie.mapper.UserMapper">
+    <sql id="tableName">
+        `user`
+    </sql>
+
+    <sql id="selectFields">
+        id, sex, age, profession, zip_code
+    </sql>
+
+    <sql id="insertKeys">
+        sex, age, profession, zip_code
+    </sql>
+
+    <sql id="insertValues">
+        #{sex}, #{age}, #{profession}, #{zip_code}
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert INTO <include refid="tableName"/>
+        (
+            <include refid="insertKeys"/>
+        )
+        VALUES
+        (
+            <include refid="insertValues"/>
+        )
+    </insert>
+
+    <select id="queryAllUsers" resultType="com.sun.movie.dal.entity.User">
+        SELECT <include refid="selectFields"/>
+        FROM <include refid="tableName"/>
+    </select>
+
+    <select id="getUserById" resultType="com.sun.movie.dal.entity.User">
+        SELECT <include refid="selectFields"/>
+        FROM <include refid="tableName"/>
+        WHERE id = #{id}
+    </select>
+</mapper>

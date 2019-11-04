@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis_mapper.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sun.movie.dal.mapper.MovieMapper">
+<mapper namespace="com.sun.movie.mapper.MovieMapper">
     <sql id="tableName">
         movie
     </sql>
@@ -16,6 +16,22 @@
     <sql id="insertValues">
         #{name}, #{published_year}, #{category}
     </sql>
+
+    <update id="update">
+        UPDATE <include refid="tableName"/>
+        <set>
+            <if test="name != '' and name != null">
+                `name` = #{name},
+            </if>
+            <if test="published_year != 0">
+                published_year = #{published_year},
+            </if>
+            <if test="category != '' and category != null">
+                category = #{category}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
     
     <select id="queryAllMovies" resultType="com.sun.movie.dal.entity.Movie">
         SELECT <include refid="selectFields"/>
@@ -26,5 +42,22 @@
         SELECT <include refid="selectFields"/>
         FROM <include refid="tableName"/>
         WHERE id = #{id}
+    </select>
+
+    <select id="getMovieByIds" resultType="com.sun.movie.dal.entity.Movie">
+        SELECT <include refid="selectFields"/>
+        FROM <include refid="tableName"/>
+        WHERE id IN
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getMovieByUserId" resultType="com.sun.movie.common.vo.UserMovieInfo">
+        SELECT movie_preference.movie_id, movie.name, movie.published_year, movie.category, movie_preference.preference, movie_preference.timestamp
+        FROM movie
+        LEFT JOIN movie_preference
+        ON movie.id = movie_preference.movie_id
+        WHERE movie_preference.user_id = #{userId}
     </select>
 </mapper>
